@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0gwf18y" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.15.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0">
+  <bpmn:process id="Process_0wedf3o" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Opened Facebook">
+      <bpmn:outgoing>Flow_1xcbe90</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1xcbe90" sourceRef="StartEvent_1" targetRef="Activity_1md180l" />
+    <bpmn:sequenceFlow id="Flow_1lw209z" sourceRef="Activity_03hngv4" targetRef="Activity_1920x4s" />
+    <bpmn:exclusiveGateway id="Gateway_0wj7u3r" name="Is post as per Facebook community standard?">
+      <bpmn:incoming>Flow_05ifjge</bpmn:incoming>
+      <bpmn:outgoing>Flow_0hp2e6t</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0qn48su</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_05ifjge" sourceRef="Activity_1jb9sli" targetRef="Gateway_0wj7u3r" />
+    <bpmn:sequenceFlow id="Flow_0hp2e6t" name="Yes" sourceRef="Gateway_0wj7u3r" targetRef="Event_0pmme6g">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=years and months duration()</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0nqgst6" sourceRef="Activity_1md180l" targetRef="Activity_03hngv4" />
+    <bpmn:sequenceFlow id="Flow_1hkkmqv" sourceRef="Activity_1920x4s" targetRef="Activity_1jb9sli" />
+    <bpmn:endEvent id="Event_0pmme6g" name="Post update in timeline.">
+      <bpmn:incoming>Flow_0hp2e6t</bpmn:incoming>
+      <bpmn:terminateEventDefinition id="TerminateEventDefinition_1ds8bun" />
+    </bpmn:endEvent>
+    <bpmn:userTask id="Activity_1md180l" name="Login to facebook">
+      <bpmn:incoming>Flow_1xcbe90</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nqgst6</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_03hngv4" name="Clicking Create Post">
+      <bpmn:incoming>Flow_0nqgst6</bpmn:incoming>
+      <bpmn:incoming>Flow_0m1i3xa</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lw209z</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_1920x4s" name="Writing Post">
+      <bpmn:incoming>Flow_1lw209z</bpmn:incoming>
+      <bpmn:outgoing>Flow_1hkkmqv</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_1jb9sli" name="Clicking on &#34;Post&#34; button">
+      <bpmn:incoming>Flow_1hkkmqv</bpmn:incoming>
+      <bpmn:outgoing>Flow_05ifjge</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0qn48su" sourceRef="Gateway_0wj7u3r" targetRef="Event_0icrzmk">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=System displaying error message</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0m1i3xa" sourceRef="Event_0icrzmk" targetRef="Activity_03hngv4" />
+    <bpmn:intermediateCatchEvent id="Event_0icrzmk" name="System displaying error message - Your post does not meet our community standard, Please try again.">
+      <bpmn:incoming>Flow_0qn48su</bpmn:incoming>
+      <bpmn:outgoing>Flow_0m1i3xa</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0h386it" messageRef="Message_32rrpbr" />
+    </bpmn:intermediateCatchEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_1aodvas" name="Message_1aodvas">
+    <bpmn:extensionElements>
+      <zeebe:subscription />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmn:message id="Message_0aks7ae" name="Message_0aks7ae" />
+  <bpmn:message id="Message_32rrpbr" name="Message_32rrpbr">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="=System displaying error message" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0wedf3o">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="174" y="202" width="49" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0wj7u3r_di" bpmnElement="Gateway_0wj7u3r" isMarkerVisible="true">
+        <dc:Bounds x="935" y="152" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="926" y="93" width="68" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1odyu9e_di" bpmnElement="Event_0pmme6g">
+        <dc:Bounds x="1122" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1105" y="202" width="71" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0e6etje_di" bpmnElement="Activity_1md180l">
+        <dc:Bounds x="280" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0rogjg3_di" bpmnElement="Activity_03hngv4">
+        <dc:Bounds x="440" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1u4c7wr_di" bpmnElement="Activity_1920x4s">
+        <dc:Bounds x="610" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_10zpv3j_di" bpmnElement="Activity_1jb9sli">
+        <dc:Bounds x="770" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0fx7x9w_di" bpmnElement="Event_0icrzmk">
+        <dc:Bounds x="942" y="302" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="916" y="345" width="89" height="93" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1xcbe90_di" bpmnElement="Flow_1xcbe90">
+        <di:waypoint x="215" y="177" />
+        <di:waypoint x="280" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lw209z_di" bpmnElement="Flow_1lw209z">
+        <di:waypoint x="540" y="177" />
+        <di:waypoint x="610" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nqgst6_di" bpmnElement="Flow_0nqgst6">
+        <di:waypoint x="380" y="177" />
+        <di:waypoint x="440" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05ifjge_di" bpmnElement="Flow_05ifjge">
+        <di:waypoint x="870" y="177" />
+        <di:waypoint x="935" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hp2e6t_di" bpmnElement="Flow_0hp2e6t">
+        <di:waypoint x="985" y="177" />
+        <di:waypoint x="1122" y="177" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1045" y="159" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hkkmqv_di" bpmnElement="Flow_1hkkmqv">
+        <di:waypoint x="710" y="177" />
+        <di:waypoint x="770" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qn48su_di" bpmnElement="Flow_0qn48su">
+        <di:waypoint x="960" y="202" />
+        <di:waypoint x="960" y="302" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0m1i3xa_di" bpmnElement="Flow_0m1i3xa">
+        <di:waypoint x="942" y="320" />
+        <di:waypoint x="490" y="320" />
+        <di:waypoint x="490" y="217" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
